@@ -18,7 +18,7 @@ export async function insertGame(req, res) {
       "INSERT INTO games (name, image, \"stockTotal\", \"pricePerDay\") VALUES ($1, $2, $3, $4)",
       [name, image, stockTotal, pricePerDay]
     );
-    res.status(201).send(game.rows[0]);
+    res.sendStatus(201);
   } catch (error) {
     console.log(error);
     res.status(500).send(error.message);
