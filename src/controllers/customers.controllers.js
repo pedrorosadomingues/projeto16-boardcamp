@@ -28,7 +28,7 @@ export async function insertCustomer(req, res) {
 export async function getCustomerById(req, res) {
   
     const { customer } = res.locals;
-
+    
     res.status(200).send(customer);
     
 }

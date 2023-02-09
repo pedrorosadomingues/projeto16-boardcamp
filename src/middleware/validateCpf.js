@@ -7,7 +7,8 @@ export async function validateCpf(req, res, next) {
       "SELECT * FROM customers WHERE cpf = $1",
       [cpf]
     );
-    if (customer.rows.length) {
+    
+    if (customer.rows.length && req.path === "/customers") {
       return res.sendStatus(409);
     }
     next();
