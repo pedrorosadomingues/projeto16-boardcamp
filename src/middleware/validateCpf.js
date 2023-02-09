@@ -8,7 +8,7 @@ export async function validateCpf(req, res, next) {
       [cpf]
     );
     
-    if (customer.rows.length && req.path === "/customers") {
+    if (customer.rows.length && customer.rows[0].id !== req.params.id) {
       return res.sendStatus(409);
     }
     next();
