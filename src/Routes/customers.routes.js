@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/customers", getCustomers);
 router.post("/customers", validateSchema(customerSchema), validateCpf, insertCustomer);
-router.put("/customers/:id", updateCustomer);
+router.put("/customers/:id", validateSchema(customerSchema), validateCpf, updateCustomer);
 router.get("/customers/:id", validateCustomerById, getCustomerById)
 
 export default router;
