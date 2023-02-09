@@ -26,17 +26,11 @@ export async function insertCustomer(req, res) {
 }
 
 export async function getCustomerById(req, res) {
-    const { id } = req.params;
+  
+    const { customer } = res.locals;
+
+    res.status(200).send(customer);
     
-    try {
-        const customer = await db.query("SELECT * FROM customers WHERE id = $1", [
-        id,
-        ]);
-        res.status(200).send(customer.rows[0]);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error.message);
-    }
 }
 export async function updateCustomer(req, res) {
   const { name, phone, cpf, birthday } = req.body;
