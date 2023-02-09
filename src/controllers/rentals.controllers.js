@@ -3,8 +3,28 @@ import dayjs from "dayjs";
 
 export async function getRentals(req, res) {
  try {
-    const rentals = await db.query("SELECT * FROM rentals");
-    res.status(200).send(rentals.rows);
+    const rentals = await db.query("SELECT rentals.*, customers.name AS \"customerName\", games.name AS \"gameName\" FROM rentals INNER JOIN customers ON rentals.\"customerId\" = customers.id INNER JOIN games ON rentals.\"gameId\" = games.id");
+    let returnRentals = rentals.rows.map((rental) => {
+        const { id, customerId, gameId, daysRented, rentDate, returnDate, originalPrice, delayFee, customerName, gameName } = rental;
+        return {
+            id,
+            customerId,
+            gameId,
+            daysRented,
+            rentDate,
+            returnDate,
+            originalPrice,
+            delayFee,
+            customer: {
+                id: customerId,
+                name: customerName,
+            },
+            game: {
+                id: gameId,
+                name: gameName,
+            },
+        }});
+    res.status(200).send(returnRentals);
  } catch (error) {
     console.log(error);
     res.status(500).send(error.message);
