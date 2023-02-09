@@ -9,9 +9,9 @@ export async function validateRental(req, res, next) {
   let originalPrice = 0;
 
     try {
-        const gameStock = await db.query("SELECT * FROM rentals WHERE gameId = $1 AND returnDate IS NULL", [gameId]);
+        const gameStock = await db.query("SELECT * FROM rentals WHERE \"gameId\" = $1 AND \"returnDate\" IS NULL", [gameId]);
 
-        const game = await db.query("SELECT * FROM games WHERE id = $1 AND ", [gameId]);
+        const game = await db.query("SELECT * FROM games WHERE id = $1", [gameId]);
         if (!game.rows.length) {
             return res.sendStatus(400);
         }
@@ -20,7 +20,7 @@ export async function validateRental(req, res, next) {
             return res.sendStatus(400);
         }
 
-        const customer = await db.query("SELECT * FROM customers WHERE id = $1 AND ", [customerId]);
+        const customer = await db.query("SELECT * FROM customers WHERE id = $1", [customerId]);
         if (!customer.rows.length) {
             return res.sendStatus(400);
         }
