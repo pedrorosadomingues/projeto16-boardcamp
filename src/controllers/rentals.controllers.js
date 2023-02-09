@@ -34,11 +34,12 @@ export async function getRentals(req, res) {
 export async function insertRental(req, res) {
     const { customerId, gameId, daysRented } = req.body;
     const rentDate = dayjs().format("YYYY-MM-DD");
+    const { originalPrice } = res.locals;
 
     try {
         const rental = await db.query(
         "INSERT INTO rentals (\"customerId\", \"gameId\", \"daysRented\", \"rentDate\", \"returnDate\", \"originalPrice\", \"delayFee\") VALUES ($1, $2, $3, $4, $5, $6, $7)",
-        [customerId, gameId, daysRented, rentDate, null, 10, null]
+        [customerId, gameId, daysRented, rentDate, null, originalPrice, null]
         );
         res.status(201).send(rental.rows[0]);
     } catch (error) {
