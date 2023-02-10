@@ -2,11 +2,15 @@ import { db } from "../database/database.connection.js";
 
 export async function validateRental(req, res, next) {
   const { gameId, daysRented, customerId } = req.body;
+  let originalPrice = 0;
+
   if (daysRented < 1) {
     return res.sendStatus(400);
   }
-  
-  let originalPrice = 0;
+
+  if (!Number(customerId) || !Number(gameId)) {
+    return res.sendStatus(400);
+  }
 
     try {
         const gameStock = await db.query("SELECT * FROM rentals WHERE \"gameId\" = $1 AND \"returnDate\" IS NULL", [gameId]);
