@@ -59,3 +59,20 @@ export async function deleteRental(req, res) {
         res.status(500).send(error.message);
     }
 }
+
+export async function finishRental(req, res) {
+    const { id } = req.params;
+    const { delayPrice, returnDate } = res.locals;
+
+    try {
+        await db.query("UPDATE rentals SET \"returnDate\" = $1, \"delayFee\" = $2 WHERE id = $3", [returnDate, delayPrice, id]);
+        res.sendStatus(200);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error.message);
+    }
+
+
+
+
+}
