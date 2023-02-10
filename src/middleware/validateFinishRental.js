@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 
 export async function validateFinishRental(req, res, next) {
     const { id } = req.params;
-    const { customerId, gameId, daysRented } = req.body;
     const returnDate = dayjs().format("YYYY-MM-DD");
     let delayDays = 0;
     let delayPrice = 0;
