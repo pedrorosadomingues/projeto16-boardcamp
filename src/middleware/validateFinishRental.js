@@ -8,7 +8,7 @@ export async function validateFinishRental(req, res, next) {
     let delayDays = 0;
     let delayPrice = 0;
     try {
-        const rental = await db.query("SELECT rentals.*, games.\"pricePerDay\" FROM rentals JOIN games ON rentals.\"gameId\" = games.id WHERE rental.id = $1 ", [id]);
+        const rental = await db.query("SELECT rentals.*, games.\"pricePerDay\" FROM rentals JOIN games ON rentals.\"gameId\" = games.id WHERE rentals.id = $1 ", [id]);
         if (!rental.rows.length) {
             return res.sendStatus(404);
         }
@@ -22,7 +22,9 @@ export async function validateFinishRental(req, res, next) {
         delayPrice = delayDays * rental.rows[0].pricePerDay;
 
         res.locals = { delayPrice, returnDate, delayDays };
+        next();
     } catch (error) {
-        
+        console.log(error);
+        res.status(500).send(error.message);
     }
 }
